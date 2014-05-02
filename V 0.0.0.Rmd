@@ -1,0 +1,26 @@
+Case study
+========================================================
+
+Das ist eine Übung damit ich "tidy data" lerne.
+
+
+First step is to load the libraries we need:
+
+```{r}
+library(reshape2)
+library(ggplot2)
+library(plyr)
+library(stringr)
+library(MASS)
+```
+
+Download .csv Datei
+
+
+
+You can also embed plots, for example:
+
+```{r fig.width=7, fig.height=6}
+plot(cars)
+```
+
