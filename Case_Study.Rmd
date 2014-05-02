@@ -22,6 +22,9 @@ source("~/Documents/Doktorarbeit/xtable.r")
 Download .csv Datei von https://github.com/hadley/mexico-mortality/raw/master/deaths/deaths08.csv.bz2
 and placed it in ~/Documents/Doktorarbeit/Case_Stdudy_exercise
 
+```{r}
+src <- 
+```
 
 
 
