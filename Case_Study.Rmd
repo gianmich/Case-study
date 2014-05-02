@@ -14,6 +14,10 @@ library(stringr)
 library(MASS)
 ```
 
+Place xtable.r in the followin Directory. Dann habe ich die Package xtable installiert
+
+source("~/Documents/Doktorarbeit/xtable.r")
+
 Download .csv Datei
 
 
