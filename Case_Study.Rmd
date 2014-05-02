@@ -1,7 +1,7 @@
-Case study
+## Case study
 ========================================================
 
-Das ist eine Übung damit ich "tidy data" lerne.
+_Das ist eine Übung damit ich "tidy data" lerne._
 
 
 First step is to load the libraries we need:
@@ -14,11 +14,15 @@ library(stringr)
 library(MASS)
 ```
 
-Place xtable.r in the followin Directory. Dann habe ich die Package xtable installiert
+xtable.r in die Folgende directory. Dann habe ich die Package xtable installiert
 
+```{r}
 source("~/Documents/Doktorarbeit/xtable.r")
+```
+Download .csv Datei von https://github.com/hadley/mexico-mortality/raw/master/deaths/deaths08.csv.bz2
+and placed it in ~/Documents/Doktorarbeit/Case_Stdudy_exercise
 
-Download .csv Datei
+
 
 
 
