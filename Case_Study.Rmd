@@ -13,6 +13,7 @@ library(plyr)
 library(stringr)
 library(MASS)
 library(ProjectTemplate)
+library(Hmisc)
 ```
 
 Ich benutze library(ProjectTemplate) um mein Project besser zu organisieren. 
@@ -34,7 +35,15 @@ load.project()
 deaths <- deaths08
 ```
 
+Jetzt möchte ich mich mit den Totesfällen an bestimmten Tageszeiten beschäftigen.
+Mit foglenden Befehlen kann ich die benötigten Beobachtungen aus dem gesamten Datensatz gewinnen.
+ 
+```{r} 
+hod2 <- count(deaths, c("hod", "cod"))  # Erzeugt ein dataset mit Hour Of Death + Cause Of Death + Number of Dead peaople in every hour from that cause
 
+hod2<- subset(hod2, !is.na(hod))  # Enfernt Not a Number aus hod Spalte
+
+````
 
 
 
