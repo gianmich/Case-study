@@ -52,7 +52,7 @@ Da die Totesursachen mit Code angezeigt werden wollen wir nun unsere hod2 Dateie
 codes<- read.csv("codes.csv")
 ````
 
-DAS HABE ICH ABGESCHRIEBEN ADRIAN BITTE ERKLÄREN
+DAS HABE ICH EINFACH ABGESCHRIEBEN ADRIAN BITTE ERKLÄREN
 ```{r}
 codes$disease <- sapply(codes$disease, function(x)
   str_c(strwrap(x, width = 30), collapse = "\n"))
@@ -62,7 +62,7 @@ codes <- codes[!duplicated(codes$cod), ]
 
 
 ```{r}
-hod2 <- join(hod2, codes, by = "cod")
+hod2 <- join(hod2, codes, by = "cod") 
 ````
 
 
