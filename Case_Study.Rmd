@@ -14,6 +14,7 @@ library(stringr)
 library(MASS)
 library(ProjectTemplate)
 library(Hmisc)
+library(knitr)
 ```
 
 Ich benutze library(ProjectTemplate) um mein Project besser zu organisieren. 
@@ -45,12 +46,33 @@ hod2<- subset(hod2, !is.na(hod))  # Enfernt Not a Number aus hod Spalte
 
 ````
 
+Da die Totesursachen mit Code angezeigt werden wollen wir nun unsere hod2 Dateien mit einer Tabelle die diese Codes erklärt
+
+```{r}
+codes<- read.csv("codes.csv")
+````
+
+DAS HABE ICH ABGESCHRIEBEN ADRIAN BITTE ERKLÄREN
+```{r}
+codes$disease <- sapply(codes$disease, function(x)
+  str_c(strwrap(x, width = 30), collapse = "\n"))
+names(codes)[1] <- "cod"
+codes <- codes[!duplicated(codes$cod), ]
+```
+
+
+```{r}
+hod2 <- join(hod2, codes, by = "cod")
+````
+
+
+
 
 
 
 You can also embed plots, for example:
 
 ```{r fig.width=7, fig.height=6}
-plot(cars)
+
 ```
 
