@@ -193,6 +193,27 @@ library(plyr)
 library(stringr)
 library(MASS)
 library(ProjectTemplate)
+library(Hmisc)
+</code></pre>
+
+<pre><code>## Loading required package: grid
+## Loading required package: lattice
+## Loading required package: survival
+## Loading required package: splines
+## Loading required package: Formula
+## 
+## Attaching package: &#39;Hmisc&#39;
+## 
+## The following objects are masked from &#39;package:plyr&#39;:
+## 
+##     is.discrete, summarize
+## 
+## The following objects are masked from &#39;package:base&#39;:
+## 
+##     format.pval, round.POSIXt, trunc.POSIXt, units
+</code></pre>
+
+<pre><code class="r">library(knitr)
 </code></pre>
 
 <p>Ich benutze library(ProjectTemplate) um mein Project besser zu organisieren. </p>
@@ -209,6 +230,14 @@ library(ProjectTemplate)
 <p>xtable.r in die Folgende directory. Dann habe ich die Package xtable installiert</p>
 
 <pre><code class="r">source(&quot;~/Documents/Doktorarbeit/xtable.r&quot;)
+</code></pre>
+
+<pre><code>## 
+## Attaching package: &#39;xtable&#39;
+## 
+## The following objects are masked from &#39;package:Hmisc&#39;:
+## 
+##     label, label&lt;-
 </code></pre>
 
 <p>Download .csv Datei von <a href="https://github.com/hadley/mexico-mortality/raw/master/deaths/deaths08.csv.bz2">https://github.com/hadley/mexico-mortality/raw/master/deaths/deaths08.csv.bz2</a>
@@ -229,12 +258,123 @@ and placed it in ~/CaseStudy</p>
 <pre><code>## Error: object &#39;deaths08&#39; not found
 </code></pre>
 
-<p>You can also embed plots, for example:</p>
+<p>Jetzt möchte ich mich mit den Totesfällen an bestimmten Tageszeiten beschäftigen.
+Mit foglenden Befehlen kann ich die benötigten Beobachtungen aus dem gesamten Datensatz gewinnen.</p>
 
-<pre><code class="r">plot(cars)
+<p>Erzeugt ein dataset mit Hour Of Death + Cause Of Death + Number of Dead peaople in every hour </p>
+
+<pre><code class="r">hod2 &lt;- count(deaths, c(&quot;hod&quot;, &quot;cod&quot;))
 </code></pre>
 
-<p><img src="data:image/png;base64,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" alt="plot of chunk unnamed-chunk-5"/> </p>
+<pre><code>## Error: object &#39;hod&#39; not found
+</code></pre>
+
+<p>Enfernt Not a Number aus hod Spalte</p>
+
+<pre><code class="r">hod2 &lt;- subset(hod2, !is.na(hod))  # Enfernt Not a Number aus hod Spalte
+</code></pre>
+
+<pre><code>## Error: object &#39;hod2&#39; not found
+</code></pre>
+
+<p>Da die Totesursachen mit Code angezeigt werden wollen wir nun unsere hod2 Dateien mit einer Tabelle die diese Codes erklärt</p>
+
+<pre><code class="r">codes &lt;- read.csv(&quot;codes.csv&quot;)
+</code></pre>
+
+<pre><code>## Warning: cannot open file &#39;codes.csv&#39;: No such file or directory
+</code></pre>
+
+<pre><code>## Error: cannot open the connection
+</code></pre>
+
+<p>DAS HABE ICH EINFACH ABGESCHRIEBEN ADRIAN BITTE ERKLÄREN</p>
+
+<pre><code class="r">codes$disease &lt;- sapply(codes$disease, function(x) str_c(strwrap(x, width = 30), 
+    collapse = &quot;\n&quot;))
+</code></pre>
+
+<pre><code>## Error: object &#39;codes&#39; not found
+</code></pre>
+
+<pre><code class="r">names(codes)[1] &lt;- &quot;cod&quot;
+</code></pre>
+
+<pre><code>## Error: object &#39;codes&#39; not found
+</code></pre>
+
+<pre><code class="r">codes &lt;- codes[!duplicated(codes$cod), ]
+</code></pre>
+
+<pre><code>## Error: object &#39;codes&#39; not found
+</code></pre>
+
+<pre><code class="r">hod2 &lt;- join(hod2, codes, by = &quot;cod&quot;)
+</code></pre>
+
+<pre><code>## Error: object &#39;hod2&#39; not found
+</code></pre>
+
+<p>Die ddply Funktion </p>
+
+<pre><code class="r">hod2 &lt;- ddply(hod2, &quot;cod&quot;, transform, prop = freq/sum(freq))
+</code></pre>
+
+<pre><code>## Error: object &#39;hod2&#39; not found
+</code></pre>
+
+<pre><code class="r">overall &lt;- ddply(hod2, &quot;hod&quot;, summarise, freq_all = sum(freq))
+</code></pre>
+
+<pre><code>## Error: object &#39;hod2&#39; not found
+</code></pre>
+
+<pre><code class="r">overall &lt;- transform(overall, prop_all = freq_all/sum(freq_all))
+</code></pre>
+
+<pre><code>## Error: object &#39;overall&#39; not found
+</code></pre>
+
+<pre><code class="r">hod2 &lt;- join(hod2, overall, by = &quot;hod&quot;)
+</code></pre>
+
+<pre><code>## Error: object &#39;hod2&#39; not found
+</code></pre>
+
+<pre><code class="r">
+
+devi &lt;- ddply(hod2, &quot;cod&quot;, summarise, n = sum(freq), dist = mean((prop - prop_all)^2))
+</code></pre>
+
+<pre><code>## Error: object &#39;hod2&#39; not found
+</code></pre>
+
+<pre><code class="r">devi &lt;- subset(devi, n &gt; 50)
+</code></pre>
+
+<pre><code>## Error: object &#39;devi&#39; not found
+</code></pre>
+
+<p>You can also embed plots, for example:</p>
+
+<pre><code class="r">ggplot(data = devi, aes(x = n, y = dist)) + geom_point()
+</code></pre>
+
+<pre><code>## Error: object &#39;devi&#39; not found
+</code></pre>
+
+<pre><code class="r">last_plot() + scale_x_log10() + scale_y_log10() + geom_smooth(method = &quot;rlm&quot;, 
+    se = F)
+</code></pre>
+
+<pre><code>## Error: non-numeric argument to binary operator
+</code></pre>
+
+<pre><code class="r">ggsave(&quot;n-dist-raw.pdf&quot;, width = 6, height = 6)
+</code></pre>
+
+<pre><code>## Error: plot should be a ggplot2 plot
+</code></pre>
 
 </body>
 

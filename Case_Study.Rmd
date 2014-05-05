@@ -6,7 +6,7 @@ _Das ist eine Übung damit ich "tidy data" lerne._
 
 First step is to load the libraries we need:
 
-```{r}
+```{r, echo=TRUE}
 library(reshape2)
 library(ggplot2)
 library(plyr)
@@ -19,41 +19,47 @@ library(knitr)
 
 Ich benutze library(ProjectTemplate) um mein Project besser zu organisieren. 
 
-```{r}
+```{r, echo=TRUE}
 create.project(CaseStudy)
 setwd("~/CaseStudy")
 ```
 xtable.r in die Folgende directory. Dann habe ich die Package xtable installiert
 
-```{r}
+```{r, echo=TRUE}
 source("~/Documents/Doktorarbeit/xtable.r")
 ```
 Download .csv Datei von https://github.com/hadley/mexico-mortality/raw/master/deaths/deaths08.csv.bz2
 and placed it in ~/CaseStudy
 
-```{r}
+```{r, echo=TRUE}
 load.project()
-deaths <- deaths08
+deaths<- deaths08
 ```
 
 Jetzt möchte ich mich mit den Totesfällen an bestimmten Tageszeiten beschäftigen.
 Mit foglenden Befehlen kann ich die benötigten Beobachtungen aus dem gesamten Datensatz gewinnen.
  
-```{r} 
-hod2 <- count(deaths, c("hod", "cod"))  # Erzeugt ein dataset mit Hour Of Death + Cause Of Death + Number of Dead peaople in every hour from that cause
+ 
+Erzeugt ein dataset mit Hour Of Death + Cause Of Death + Number of Dead peaople in every hour 
+```{r, echo=TRUE} 
+hod2 <- count(deaths, c("hod", "cod"))  
+```
+ 
+Enfernt Not a Number aus hod Spalte
 
+```{r, echo=TRUE}
 hod2<- subset(hod2, !is.na(hod))  # Enfernt Not a Number aus hod Spalte
 
 ````
 
 Da die Totesursachen mit Code angezeigt werden wollen wir nun unsere hod2 Dateien mit einer Tabelle die diese Codes erklärt
 
-```{r}
+```{r, echo=TRUE}
 codes<- read.csv("codes.csv")
 ````
 
 DAS HABE ICH EINFACH ABGESCHRIEBEN ADRIAN BITTE ERKLÄREN
-```{r}
+```{r, echo=TRUE}
 codes$disease <- sapply(codes$disease, function(x)
   str_c(strwrap(x, width = 30), collapse = "\n"))
 names(codes)[1] <- "cod"
@@ -61,9 +67,23 @@ codes <- codes[!duplicated(codes$cod), ]
 ```
 
 
-```{r}
+```{r, echo=TRUE}
 hod2 <- join(hod2, codes, by = "cod") 
 ````
+
+Die ddply Funktion 
+
+```{r}
+hod2<- ddply(hod2, "cod", transform, prop=freq/sum(freq))
+overall<- ddply(hod2, "hod", summarise, freq_all=sum(freq))
+overall<- transform(overall, prop_all=freq_all/sum(freq_all))
+hod2<- join(hod2, overall, by = "hod")
+
+
+devi <- ddply(hod2, "cod", summarise, n = sum(freq), 
+  dist = mean((prop - prop_all)^2))
+devi <- subset(devi, n > 50)
+```
 
 
 
@@ -73,6 +93,10 @@ hod2 <- join(hod2, codes, by = "cod")
 You can also embed plots, for example:
 
 ```{r fig.width=7, fig.height=6}
-
+ggplot(data = devi, aes(x=n, y=dist)) + geom_point()
+last_plot() +
+  scale_x_log10() +
+  scale_y_log10()+
+  geom_smooth(method= "rlm", se = F)
 ```
 
