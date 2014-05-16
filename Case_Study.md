@@ -14,7 +14,6 @@ First step is to load the libraries we need:
 
 ```r
 
-
 library(reshape2)
 library(ggplot2)
 library(plyr)
@@ -115,11 +114,17 @@ load.project()
 ## Autoloading data
 ##  Loading data set: deaths08
 ## Loading required package: data.table
-```
-
-```
-## Error: load.project() requires package data.table.
-## Please install data.table by running install.packages("data.table") and then try re-running project.load()
+## 
+## Attaching package: 'data.table'
+## 
+## The following objects are masked from 'package:lubridate':
+## 
+##     hour, mday, month, quarter, wday, week, yday, year
+## 
+## Converting data.frames to data.tables
+##  Translating data.frame: deaths08
+## Munging data
+##  Running preprocessing script: 01-A.R
 ```
 
 ```r
@@ -151,15 +156,9 @@ Da die Totesursachen mit Code angezeigt werden wollen wir nun unsere hod2 Dateie
 
 
 ```r
+setwd("~/CaseStudy/")
+
 codes <- read.csv("codes.csv")
-```
-
-```
-## Warning: cannot open file 'codes.csv': No such file or directory
-```
-
-```
-## Error: cannot open the connection
 ```
 
 
@@ -168,26 +167,8 @@ DAS HABE ICH EINFACH ABGESCHRIEBEN ADRIAN BITTE ERKLÄREN
 ```r
 codes$disease <- sapply(codes$disease, function(x) str_c(strwrap(x, width = 30), 
     collapse = "\n"))
-```
-
-```
-## Error: object 'codes' not found
-```
-
-```r
 names(codes)[1] <- "cod"
-```
-
-```
-## Error: object 'codes' not found
-```
-
-```r
 codes <- codes[!duplicated(codes$cod), ]
-```
-
-```
-## Error: object 'codes' not found
 ```
 
 
@@ -195,10 +176,6 @@ codes <- codes[!duplicated(codes$cod), ]
 
 ```r
 hod2 <- join(hod2, codes, by = "cod")
-```
-
-```
-## Error: object 'codes' not found
 ```
 
 

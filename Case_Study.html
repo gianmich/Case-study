@@ -188,7 +188,6 @@ hljs.initHighlightingOnLoad();
 <p>First step is to load the libraries we need:</p>
 
 <pre><code class="r">
-
 library(reshape2)
 library(ggplot2)
 library(plyr)
@@ -278,10 +277,17 @@ load.project()
 ## Autoloading data
 ##  Loading data set: deaths08
 ## Loading required package: data.table
-</code></pre>
-
-<pre><code>## Error: load.project() requires package data.table.
-## Please install data.table by running install.packages(&quot;data.table&quot;) and then try re-running project.load()
+## 
+## Attaching package: &#39;data.table&#39;
+## 
+## The following objects are masked from &#39;package:lubridate&#39;:
+## 
+##     hour, mday, month, quarter, wday, week, yday, year
+## 
+## Converting data.frames to data.tables
+##  Translating data.frame: deaths08
+## Munging data
+##  Running preprocessing script: 01-A.R
 </code></pre>
 
 <pre><code class="r">deaths &lt;- deaths08
@@ -303,40 +309,20 @@ hod2 &lt;- count(deaths, c(&quot;hod&quot;, &quot;cod&quot;))
 
 <p>Da die Totesursachen mit Code angezeigt werden wollen wir nun unsere hod2 Dateien mit einer Tabelle die diese Codes erklärt</p>
 
-<pre><code class="r">codes &lt;- read.csv(&quot;codes.csv&quot;)
-</code></pre>
+<pre><code class="r">setwd(&quot;~/CaseStudy/&quot;)
 
-<pre><code>## Warning: cannot open file &#39;codes.csv&#39;: No such file or directory
-</code></pre>
-
-<pre><code>## Error: cannot open the connection
+codes &lt;- read.csv(&quot;codes.csv&quot;)
 </code></pre>
 
 <p>DAS HABE ICH EINFACH ABGESCHRIEBEN ADRIAN BITTE ERKLÄREN</p>
 
 <pre><code class="r">codes$disease &lt;- sapply(codes$disease, function(x) str_c(strwrap(x, width = 30), 
     collapse = &quot;\n&quot;))
-</code></pre>
-
-<pre><code>## Error: object &#39;codes&#39; not found
-</code></pre>
-
-<pre><code class="r">names(codes)[1] &lt;- &quot;cod&quot;
-</code></pre>
-
-<pre><code>## Error: object &#39;codes&#39; not found
-</code></pre>
-
-<pre><code class="r">codes &lt;- codes[!duplicated(codes$cod), ]
-</code></pre>
-
-<pre><code>## Error: object &#39;codes&#39; not found
+names(codes)[1] &lt;- &quot;cod&quot;
+codes &lt;- codes[!duplicated(codes$cod), ]
 </code></pre>
 
 <pre><code class="r">hod2 &lt;- join(hod2, codes, by = &quot;cod&quot;)
-</code></pre>
-
-<pre><code>## Error: object &#39;codes&#39; not found
 </code></pre>
 
 <p>Die ddply Funktion </p>

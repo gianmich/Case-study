@@ -63,6 +63,8 @@ hod2<- subset(hod2, !is.na(hod))  # Enfernt Not a Number aus hod Spalte
 Da die Totesursachen mit Code angezeigt werden wollen wir nun unsere hod2 Dateien mit einer Tabelle die diese Codes erklärt
 
 ```{r, echo=TRUE}
+setwd("~/CaseStudy/")
+
 codes<- read.csv("codes.csv")
 ````
 
