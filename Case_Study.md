@@ -1,3 +1,5 @@
+
+
 ## Case study
 ========================================================
 
@@ -7,7 +9,12 @@ _Das ist eine Übung damit ich "tidy data" lerne._
 First step is to load the libraries we need:
 
 
+
+
+
 ```r
+
+
 library(reshape2)
 library(ggplot2)
 library(plyr)
@@ -44,15 +51,8 @@ Ich benutze library(ProjectTemplate) um mein Project besser zu organisieren.
 
 
 ```r
-create.project(CaseStudy)
-```
-
-```
-## Error: object 'CaseStudy' not found
-```
-
-```r
-setwd("~/CaseStudy")
+## create.project(CaseStudy)
+setwd("~/CaseStudy/")
 ```
 
 xtable.r in die Folgende directory. Dann habe ich die Package xtable installiert
@@ -76,23 +76,54 @@ and placed it in ~/CaseStudy
 
 
 ```r
+setwd("~/CaseStudy/")
 load.project()
 ```
 
 ```
 ## Loading project configuration
+## Autoloading helper functions
+##  Running helper script: helpers.R
+## Autoloading packages
+##  Loading package: reshape
+## 
+## Attaching package: 'reshape'
+## 
+## The following objects are masked from 'package:plyr':
+## 
+##     rename, round_any
+## 
+## The following objects are masked from 'package:reshape2':
+## 
+##     colsplit, melt, recast
+## 
+##  Loading package: plyr
+##  Loading package: ggplot2
+##  Loading package: stringr
+##  Loading package: lubridate
+## 
+## Attaching package: 'lubridate'
+## 
+## The following object is masked from 'package:reshape':
+## 
+##     stamp
+## 
+## The following object is masked from 'package:plyr':
+## 
+##     here
+## 
+## Autoloading data
+##  Loading data set: deaths08
+## Loading required package: data.table
 ```
 
 ```
-## Error: You are missing a configuration file: config/global.dcf
+## Error: load.project() requires package data.table.
+## Please install data.table by running install.packages("data.table") and then try re-running project.load()
 ```
 
 ```r
 deaths <- deaths08
-```
-
-```
-## Error: object 'deaths08' not found
 ```
 
 
@@ -103,11 +134,8 @@ Mit foglenden Befehlen kann ich die benötigten Beobachtungen aus dem gesamten D
 Erzeugt ein dataset mit Hour Of Death + Cause Of Death + Number of Dead peaople in every hour 
 
 ```r
-hod2 <- count(deaths, c("hod", "cod"))
-```
 
-```
-## Error: object 'hod' not found
+hod2 <- count(deaths, c("hod", "cod"))
 ```
 
  
@@ -116,10 +144,6 @@ Enfernt Not a Number aus hod Spalte
 
 ```r
 hod2 <- subset(hod2, !is.na(hod))  # Enfernt Not a Number aus hod Spalte
-```
-
-```
-## Error: object 'hod2' not found
 ```
 
 
@@ -174,7 +198,7 @@ hod2 <- join(hod2, codes, by = "cod")
 ```
 
 ```
-## Error: object 'hod2' not found
+## Error: object 'codes' not found
 ```
 
 
@@ -183,52 +207,13 @@ Die ddply Funktion
 
 ```r
 hod2 <- ddply(hod2, "cod", transform, prop = freq/sum(freq))
-```
-
-```
-## Error: object 'hod2' not found
-```
-
-```r
 overall <- ddply(hod2, "hod", summarise, freq_all = sum(freq))
-```
-
-```
-## Error: object 'hod2' not found
-```
-
-```r
 overall <- transform(overall, prop_all = freq_all/sum(freq_all))
-```
-
-```
-## Error: object 'overall' not found
-```
-
-```r
 hod2 <- join(hod2, overall, by = "hod")
-```
-
-```
-## Error: object 'hod2' not found
-```
-
-```r
 
 
 devi <- ddply(hod2, "cod", summarise, n = sum(freq), dist = mean((prop - prop_all)^2))
-```
-
-```
-## Error: object 'hod2' not found
-```
-
-```r
 devi <- subset(devi, n > 50)
-```
-
-```
-## Error: object 'devi' not found
 ```
 
 
@@ -244,25 +229,13 @@ You can also embed plots, for example:
 ggplot(data = devi, aes(x = n, y = dist)) + geom_point()
 ```
 
-```
-## Error: object 'devi' not found
-```
+![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-111.png) 
 
 ```r
 last_plot() + scale_x_log10() + scale_y_log10() + geom_smooth(method = "rlm", 
     se = F)
 ```
 
-```
-## Error: non-numeric argument to binary operator
-```
-
-```r
-ggsave("n-dist-raw.pdf", width = 6, height = 6)
-```
-
-```
-## Error: plot should be a ggplot2 plot
-```
+![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-112.png) 
 
 

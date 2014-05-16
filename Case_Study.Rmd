@@ -1,3 +1,5 @@
+`r opts_knit$set(root.dir="..")`
+
 ## Case study
 ========================================================
 
@@ -6,7 +8,11 @@ _Das ist eine Übung damit ich "tidy data" lerne._
 
 First step is to load the libraries we need:
 
+
+
+
 ```{r, echo=TRUE}
+
 library(reshape2)
 library(ggplot2)
 library(plyr)
@@ -20,8 +26,8 @@ library(knitr)
 Ich benutze library(ProjectTemplate) um mein Project besser zu organisieren. 
 
 ```{r, echo=TRUE}
-create.project(CaseStudy)
-setwd("~/CaseStudy")
+## create.project(CaseStudy)
+setwd("~/CaseStudy/")
 ```
 xtable.r in die Folgende directory. Dann habe ich die Package xtable installiert
 
@@ -32,6 +38,7 @@ Download .csv Datei von https://github.com/hadley/mexico-mortality/raw/master/de
 and placed it in ~/CaseStudy
 
 ```{r, echo=TRUE}
+setwd("~/CaseStudy/")
 load.project()
 deaths<- deaths08
 ```
@@ -42,6 +49,7 @@ Mit foglenden Befehlen kann ich die benötigten Beobachtungen aus dem gesamten D
  
 Erzeugt ein dataset mit Hour Of Death + Cause Of Death + Number of Dead peaople in every hour 
 ```{r, echo=TRUE} 
+
 hod2 <- count(deaths, c("hod", "cod"))  
 ```
  
